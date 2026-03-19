@@ -1,0 +1,791 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vasishta VFX – Cinematic Photography & Editing</title>
+<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Rajdhani:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --red:        #C0392B;
+  --red-light:  #E74C3C;
+  --red-glow:   #FF6B5B;
+  --cream:      #F5ECD7;
+  --cream-dim:  #C9B99A;
+  --black:      #080608;
+  --dark:       #0E0C0E;
+  --dark2:      #160E14;
+  --dark3:      #1E1219;
+  --white:      #FAF6F0;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior:smooth; }
+body { background:var(--black); color:var(--cream-dim); font-family:"Rajdhani",sans-serif; overflow-x:hidden; }
+::-webkit-scrollbar { width:3px; }
+::-webkit-scrollbar-track { background:var(--black); }
+::-webkit-scrollbar-thumb { background:var(--red); }
+
+/* ── NAV ── */
+nav {
+  position:fixed; top:0; width:100%; z-index:200;
+  padding:16px 60px;
+  display:flex; justify-content:space-between; align-items:center;
+  transition:background 0.4s, border 0.4s;
+}
+nav.scrolled {
+  background:rgba(8,6,8,0.96); backdrop-filter:blur(14px);
+  border-bottom:1px solid rgba(192,57,43,0.2);
+}
+.nav-logo-text {
+  font-family:"Great Vibes", cursive;
+  font-size:2.2rem;
+  color:var(--cream);
+  text-shadow:0 0 20px rgba(192,57,43,0.5);
+  letter-spacing:0.02em;
+  cursor:pointer; text-decoration:none;
+  transition:text-shadow 0.3s;
+}
+.nav-logo-text:hover { text-shadow:0 0 40px rgba(231,76,60,0.8); }
+
+.nav-links { display:flex; gap:32px; list-style:none; }
+.nav-links a {
+  color:var(--cream-dim); text-decoration:none;
+  font-size:0.73rem; letter-spacing:0.2em; text-transform:uppercase;
+  font-weight:600; transition:color 0.3s; position:relative;
+}
+.nav-links a::after { content:""; position:absolute; bottom:-5px; left:0; width:0; height:1px; background:var(--red-light); transition:width 0.3s; }
+.nav-links a:hover { color:var(--cream); }
+.nav-links a:hover::after { width:100%; }
+.hamburger { display:none; flex-direction:column; gap:5px; cursor:pointer; }
+.hamburger span { width:24px; height:1px; background:var(--red-light); transition:all 0.3s; }
+
+/* ── HERO ── */
+#home {
+  min-height:100vh; position:relative; overflow:hidden;
+  display:flex; align-items:center; justify-content:center;
+  background:var(--black);
+}
+.hero-grid {
+  position:absolute; inset:0;
+  background-image:
+    linear-gradient(rgba(192,57,43,0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(192,57,43,0.04) 1px, transparent 1px);
+  background-size:65px 65px;
+  animation:gridDrift 35s linear infinite;
+}
+@keyframes gridDrift { 0%{background-position:0 0;} 100%{background-position:0 65px;} }
+.hero-glow {
+  position:absolute; inset:0;
+  background:radial-gradient(ellipse 60% 60% at 50% 50%, rgba(192,57,43,0.12) 0%, transparent 70%);
+  animation:glowPulse 5s ease-in-out infinite;
+}
+@keyframes glowPulse { 0%,100%{opacity:0.6;} 50%{opacity:1;} }
+.hero-vignette {
+  position:absolute; inset:0;
+  background:radial-gradient(ellipse at center, transparent 25%, rgba(8,6,8,0.65) 65%, rgba(8,6,8,0.95) 100%);
+  z-index:1;
+}
+.hero-particles { position:absolute; inset:0; overflow:hidden; z-index:0; }
+.particle {
+  position:absolute; border-radius:50%;
+  background:radial-gradient(circle, rgba(192,57,43,0.7), transparent);
+  animation:floatParticle linear infinite;
+}
+@keyframes floatParticle {
+  0%{transform:translateY(100vh) scale(0);opacity:0;}
+  10%{opacity:1;} 90%{opacity:0.2;}
+  100%{transform:translateY(-10vh) scale(1);opacity:0;}
+}
+
+.hero-content { position:relative; z-index:2; text-align:center; padding:20px; max-width:900px; }
+.hero-logo-wrap {
+  margin-bottom:24px;
+  opacity:0; animation:fadeUp 1.2s 0.2s cubic-bezier(0.16,1,0.3,1) forwards;
+}
+.hero-big-title {
+  font-family:"Great Vibes", cursive;
+  font-size:clamp(5rem, 18vw, 14rem);
+  font-weight:400;
+  color:var(--cream);
+  line-height:0.95;
+  text-shadow:
+    0 0 40px rgba(192,57,43,0.6),
+    0 0 80px rgba(192,57,43,0.3),
+    0 0 160px rgba(192,57,43,0.1);
+  animation:titleGlow 4s ease-in-out infinite;
+}
+@keyframes titleGlow {
+  0%,100%{text-shadow:0 0 40px rgba(192,57,43,0.6),0 0 80px rgba(192,57,43,0.3),0 0 160px rgba(192,57,43,0.1);}
+  50%{text-shadow:0 0 60px rgba(231,76,60,0.9),0 0 120px rgba(231,76,60,0.5),0 0 200px rgba(192,57,43,0.2);}
+}
+.hero-sub-tag {
+  font-family:"Rajdhani",sans-serif;
+  font-size:0.7rem; letter-spacing:0.55em; text-transform:uppercase;
+  color:var(--red-light); font-weight:600; margin-bottom:20px;
+  opacity:0; animation:fadeUp 1s 0.5s forwards;
+}
+.hero-divider {
+  width:180px; height:1px; margin:0 auto 22px;
+  background:linear-gradient(to right, transparent, var(--red), transparent);
+  opacity:0; animation:fadeUp 1s 0.65s forwards;
+}
+.hero-tagline {
+  font-family:"Cormorant Garamond",serif; font-style:italic;
+  font-size:clamp(1rem, 2.2vw, 1.3rem); color:var(--cream-dim);
+  letter-spacing:0.06em; margin-bottom:46px;
+  opacity:0; animation:fadeUp 1s 0.8s forwards;
+}
+.hero-tagline em { color:var(--cream); font-style:normal; }
+.hero-btns {
+  display:flex; gap:18px; justify-content:center; flex-wrap:wrap;
+  opacity:0; animation:fadeUp 1s 1s forwards;
+}
+@keyframes fadeUp { from{opacity:0;transform:translateY(22px);} to{opacity:1;transform:translateY(0);} }
+
+.hero-scroll {
+  position:absolute; bottom:34px; left:50%; transform:translateX(-50%);
+  z-index:2; display:flex; flex-direction:column; align-items:center; gap:10px;
+  opacity:0; animation:fadeUp 1s 1.4s forwards;
+}
+.hero-scroll span { font-size:0.58rem; letter-spacing:0.5em; color:var(--red-light); text-transform:uppercase; }
+.scroll-line { width:1px; height:48px; background:linear-gradient(to bottom, var(--red-light), transparent); animation:scrollB 2s ease-in-out infinite; }
+@keyframes scrollB { 0%,100%{opacity:0.5;transform:scaleY(1);} 50%{opacity:1;transform:scaleY(1.25);} }
+
+/* ── BUTTONS ── */
+.btn-primary {
+  padding:13px 36px;
+  background:linear-gradient(135deg, var(--red) 0%, var(--red-light) 100%);
+  color:var(--white); font-family:"Rajdhani",sans-serif;
+  font-weight:700; font-size:0.78rem; letter-spacing:0.22em; text-transform:uppercase;
+  border:none; cursor:pointer; text-decoration:none; display:inline-block;
+  clip-path:polygon(10px 0%,100% 0%,calc(100% - 10px) 100%,0% 100%);
+  transition:all 0.3s; position:relative; overflow:hidden;
+}
+.btn-primary:hover { transform:translateY(-3px); box-shadow:0 10px 40px rgba(192,57,43,0.55); }
+.btn-ghost {
+  padding:13px 36px;
+  background:transparent; color:var(--cream);
+  font-family:"Rajdhani",sans-serif; font-weight:700;
+  font-size:0.78rem; letter-spacing:0.22em; text-transform:uppercase;
+  border:1px solid rgba(192,57,43,0.5); cursor:pointer; text-decoration:none; display:inline-block;
+  clip-path:polygon(10px 0%,100% 0%,calc(100% - 10px) 100%,0% 100%);
+  transition:all 0.3s;
+}
+.btn-ghost:hover { background:rgba(192,57,43,0.12); border-color:var(--red-light); transform:translateY(-3px); box-shadow:0 10px 40px rgba(192,57,43,0.2); }
+
+/* ── URGENCY ── */
+.urgency {
+  background:linear-gradient(90deg, rgba(192,57,43,0.07), rgba(192,57,43,0.14), rgba(192,57,43,0.07));
+  border-top:1px solid rgba(192,57,43,0.3); border-bottom:1px solid rgba(192,57,43,0.3);
+  padding:13px; text-align:center; overflow:hidden; position:relative;
+}
+.urgency::before {
+  content:""; position:absolute; top:0; left:-100%; width:60%; height:100%;
+  background:linear-gradient(90deg,transparent,rgba(192,57,43,0.12),transparent);
+  animation:shimmer 3s infinite;
+}
+@keyframes shimmer{0%{left:-100%;}100%{left:200%;}}
+.urgency p { font-size:0.75rem; letter-spacing:0.3em; text-transform:uppercase; color:var(--cream-dim); font-weight:600; }
+.urgency p span { color:var(--red-light); font-weight:700; }
+
+/* ── SECTION ── */
+section { padding:96px 60px; }
+.section-head { text-align:center; margin-bottom:68px; }
+.s-label { font-size:0.63rem; letter-spacing:0.6em; text-transform:uppercase; color:var(--red-light); display:block; margin-bottom:12px; font-weight:600; }
+.s-title { font-family:"Great Vibes", cursive; font-size:clamp(2.2rem,5vw,4rem); color:var(--cream); text-shadow:0 0 40px rgba(192,57,43,0.3); margin-bottom:16px; }
+.s-line { width:70px; height:1px; background:linear-gradient(to right,transparent,var(--red),transparent); margin:0 auto 16px; }
+.s-desc { font-family:"Cormorant Garamond",serif; font-style:italic; font-size:1.04rem; color:var(--cream-dim); max-width:480px; margin:0 auto; line-height:1.7; }
+
+.reveal { opacity:0; transform:translateY(34px); transition:opacity 0.8s,transform 0.8s; }
+.reveal.on { opacity:1; transform:translateY(0); }
+
+/* ── SERVICES ── */
+#services { background:var(--dark); }
+.srv-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); gap:1px; max-width:1200px; margin:0 auto; }
+.srv-card {
+  background:var(--dark2); padding:48px 40px;
+  border:1px solid rgba(192,57,43,0.08);
+  position:relative; overflow:hidden; transition:all 0.4s;
+}
+.srv-card::before { content:""; position:absolute; top:0;left:0;right:0;height:2px; background:linear-gradient(to right,transparent,var(--red),transparent); transform:scaleX(0); transform-origin:left; transition:transform 0.5s; }
+.srv-card::after { content:""; position:absolute; inset:0; background:radial-gradient(ellipse at top,rgba(192,57,43,0.06),transparent 65%); opacity:0; transition:opacity 0.4s; }
+.srv-card:hover { background:var(--dark3); transform:translateY(-6px); box-shadow:0 20px 60px rgba(0,0,0,0.7); }
+.srv-card:hover::before { transform:scaleX(1); }
+.srv-card:hover::after { opacity:1; }
+.srv-icon { font-size:2.1rem; margin-bottom:16px; display:block; }
+.srv-title { font-family:"Great Vibes", cursive; font-size:1.9rem; color:var(--cream); margin-bottom:4px; line-height:1.1; }
+.srv-sub { font-size:0.66rem; letter-spacing:0.35em; text-transform:uppercase; color:var(--red-light); margin-bottom:26px; font-weight:600; }
+.price-row { display:flex; justify-content:space-between; align-items:center; padding:10px 0; border-bottom:1px solid rgba(192,57,43,0.08); }
+.price-row:last-of-type { border:none; }
+.price-name { font-size:0.87rem; color:var(--cream-dim); }
+.price-val { font-size:0.82rem; color:var(--cream); font-weight:600; letter-spacing:0.03em; }
+.srv-badge { margin-top:20px; padding:7px 14px; background:rgba(192,57,43,0.08); border:1px solid rgba(192,57,43,0.22); font-size:0.68rem; letter-spacing:0.2em; color:var(--red-light); text-transform:uppercase; display:inline-block; }
+
+/* ── FASHION ── */
+#fashion { background:var(--black); }
+.fashion-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(250px,1fr)); gap:22px; max-width:1200px; margin:0 auto; }
+.fashion-card {
+  padding:36px 28px; border:1px solid rgba(192,57,43,0.1);
+  background:linear-gradient(135deg,rgba(192,57,43,0.03),transparent);
+  position:relative; overflow:hidden; transition:all 0.35s;
+}
+.fashion-card::after { content:""; position:absolute; bottom:0;right:0;width:46px;height:46px; border-right:1px solid rgba(192,57,43,0.28); border-bottom:1px solid rgba(192,57,43,0.28); }
+.fashion-card:hover { border-color:rgba(192,57,43,0.38); transform:translateY(-4px); background:rgba(192,57,43,0.05); }
+.fashion-num { font-family:"Great Vibes", cursive; font-size:3rem; color:rgba(192,57,43,0.15); line-height:1; margin-bottom:10px; }
+.fashion-title { font-family:"Rajdhani",sans-serif; font-size:1rem; font-weight:700; color:var(--cream); margin-bottom:10px; letter-spacing:0.05em; }
+.fashion-desc { font-family:"Cormorant Garamond",serif; font-style:italic; font-size:0.94rem; color:var(--cream-dim); line-height:1.65; }
+
+/* ── LIFESTYLE ── */
+#lifestyle { background:var(--dark); }
+.ls-row { display:flex; flex-wrap:wrap; max-width:1100px; margin:0 auto; border:1px solid rgba(192,57,43,0.1); }
+.ls-item { flex:1; min-width:260px; padding:50px 38px; text-align:center; border-right:1px solid rgba(192,57,43,0.1); transition:background 0.3s; }
+.ls-item:last-child { border-right:none; }
+.ls-item:hover { background:rgba(192,57,43,0.05); }
+.ls-icon { font-size:2.3rem; margin-bottom:16px; }
+.ls-title { font-family:"Rajdhani",sans-serif; font-size:0.95rem; font-weight:700; color:var(--cream); margin-bottom:12px; letter-spacing:0.06em; text-transform:uppercase; }
+.ls-desc { font-family:"Cormorant Garamond",serif; font-style:italic; font-size:0.94rem; color:var(--cream-dim); line-height:1.65; }
+
+/* ── STATS ── */
+#stats { background:var(--black); padding:70px 60px; }
+.stats-row { display:flex; flex-wrap:wrap; justify-content:center; gap:60px; max-width:900px; margin:0 auto; text-align:center; }
+.stat-num { font-family:"Great Vibes", cursive; font-size:clamp(2.8rem,6vw,4.5rem); color:var(--cream); text-shadow:0 0 40px rgba(192,57,43,0.5); line-height:1; }
+.stat-label { font-size:0.68rem; letter-spacing:0.3em; text-transform:uppercase; color:var(--cream-dim); margin-top:8px; }
+
+/* ── TESTIMONIALS ── */
+#testimonials { background:var(--dark); }
+.testi-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:20px; max-width:1050px; margin:0 auto; }
+.testi-card {
+  padding:38px 32px; background:var(--dark2);
+  border:1px solid rgba(192,57,43,0.1); transition:all 0.3s;
+}
+.testi-card:hover { border-color:rgba(192,57,43,0.35); transform:translateY(-5px); box-shadow:0 15px 50px rgba(0,0,0,0.6); }
+.testi-stars { color:var(--red-light); font-size:0.85rem; letter-spacing:4px; margin-bottom:16px; }
+.testi-quote { font-family:"Cormorant Garamond",serif; font-style:italic; font-size:1rem; color:var(--cream-dim); line-height:1.75; margin-bottom:22px; }
+.testi-quote::before { content:"\201C"; color:var(--red-light); font-size:2.2rem; line-height:0; vertical-align:-0.4em; margin-right:4px; }
+.testi-author { font-family:"Rajdhani",sans-serif; font-weight:700; font-size:0.74rem; letter-spacing:0.3em; color:var(--cream); text-transform:uppercase; }
+.testi-role { font-size:0.7rem; color:#4a3a40; letter-spacing:0.1em; margin-top:4px; }
+
+/* ── BOOKING ── */
+#booking { background:var(--black); }
+.booking-wrap { max-width:680px; margin:0 auto; }
+.booking-form { display:grid; gap:16px; }
+.f-row { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+.f-group { display:flex; flex-direction:column; gap:7px; }
+.f-group label { font-size:0.63rem; letter-spacing:0.4em; text-transform:uppercase; color:var(--red-light); font-weight:700; }
+.f-group input,.f-group select,.f-group textarea {
+  background:var(--dark2); border:1px solid rgba(192,57,43,0.18);
+  color:var(--white); padding:12px 15px;
+  font-family:"Rajdhani",sans-serif; font-size:0.94rem;
+  outline:none; transition:border-color 0.3s, box-shadow 0.3s;
+}
+.f-group input:focus,.f-group select:focus,.f-group textarea:focus { border-color:var(--red-light); box-shadow:0 0 20px rgba(192,57,43,0.12); }
+.f-group select { appearance:none; cursor:pointer; }
+.f-group select option { background:var(--dark2); }
+.f-group textarea { resize:vertical; min-height:100px; }
+.f-submit { text-align:center; margin-top:10px; }
+
+/* ── CONTACT ── */
+#contact { background:var(--dark); text-align:center; }
+.contact-items { display:flex; justify-content:center; gap:55px; flex-wrap:wrap; margin-bottom:56px; }
+.contact-item { display:flex; flex-direction:column; align-items:center; gap:11px; }
+.c-icon {
+  width:56px; height:56px; border:1px solid rgba(192,57,43,0.28);
+  display:flex; align-items:center; justify-content:center; font-size:1.45rem;
+  transition:all 0.3s; cursor:pointer;
+}
+.c-icon:hover { background:rgba(192,57,43,0.12); border-color:var(--red-light); transform:translateY(-3px); }
+.c-label { font-size:0.63rem; letter-spacing:0.35em; text-transform:uppercase; color:var(--red-light); font-weight:700; }
+.c-val { font-family:"Cormorant Garamond",serif; font-size:1rem; color:var(--cream-dim); }
+.c-name { font-family:"Rajdhani",sans-serif; font-size:0.82rem; color:#5a4050; letter-spacing:0.05em; margin-top:-4px; }
+.contact-quote { font-family:"Cormorant Garamond",serif; font-style:italic; font-size:1rem; color:#3d2a35; letter-spacing:0.05em; }
+
+/* ── FOOTER ── */
+footer {
+  background:#060406; border-top:1px solid rgba(192,57,43,0.1);
+  padding:38px 60px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:20px;
+}
+.footer-logo-text {
+  font-family:"Great Vibes", cursive;
+  font-size:1.8rem; color:var(--cream); opacity:0.7;
+  text-shadow:0 0 20px rgba(192,57,43,0.3);
+}
+.footer-copy { font-size:0.7rem; color:#2e1e26; letter-spacing:0.08em; }
+
+/* ── FLOATING CHAT BUTTON ── */
+.wa-float {
+  position:fixed; bottom:32px; right:32px; z-index:999;
+  display:flex; align-items:center; gap:12px;
+  background:rgba(8,6,8,0.92);
+  border:1px solid rgba(192,57,43,0.45);
+  padding:12px 20px 12px 14px;
+  text-decoration:none;
+  backdrop-filter:blur(12px);
+  clip-path:polygon(14px 0%,100% 0%,calc(100% - 14px) 100%,0% 100%);
+  box-shadow:0 8px 40px rgba(192,57,43,0.25);
+  transition:all 0.35s;
+  animation:waGlow 3s ease-in-out infinite;
+}
+.wa-float:hover {
+  background:rgba(192,57,43,0.15);
+  border-color:var(--red-light);
+  box-shadow:0 12px 50px rgba(192,57,43,0.45);
+  transform:translateY(-3px);
+}
+@keyframes waGlow {
+  0%,100%{box-shadow:0 8px 40px rgba(192,57,43,0.2);}
+  50%{box-shadow:0 8px 50px rgba(192,57,43,0.45);}
+}
+.wa-float-icon {
+  width:34px; height:34px;
+  border:1px solid rgba(192,57,43,0.5);
+  border-radius:50%;
+  display:flex; align-items:center; justify-content:center;
+  background:rgba(192,57,43,0.12);
+  flex-shrink:0;
+}
+.wa-float-icon svg {
+  width:18px; height:18px; fill:#25D366;
+}
+.wa-float-text {
+  display:flex; flex-direction:column; gap:1px;
+}
+.wa-float-text span:first-child {
+  font-family:"Rajdhani",sans-serif;
+  font-size:0.72rem; font-weight:700;
+  letter-spacing:0.2em; text-transform:uppercase;
+  color:var(--cream);
+}
+.wa-float-text span:last-child {
+  font-family:"Cormorant Garamond",serif;
+  font-style:italic; font-size:0.78rem;
+  color:var(--red-light);
+}
+.wa-float-dot {
+  width:7px; height:7px; border-radius:50%;
+  background:#25D366;
+  box-shadow:0 0 8px rgba(37,211,102,0.8);
+  animation:dotBlink 1.8s ease-in-out infinite;
+  flex-shrink:0;
+}
+@keyframes dotBlink {
+  0%,100%{opacity:1;} 50%{opacity:0.3;}
+}
+
+/* ── MOBILE ── */
+@media(max-width:768px){
+  nav { padding:14px 20px; }
+  .nav-links { display:none; position:fixed; top:0;right:0;bottom:0;width:70vw;background:rgba(8,6,8,0.98);flex-direction:column;padding:80px 36px;gap:28px; }
+  .nav-links.open { display:flex; }
+  .hamburger { display:flex; }
+  section { padding:68px 20px; }
+  .f-row { grid-template-columns:1fr; }
+  .contact-items { gap:38px; }
+  footer { padding:28px 20px; flex-direction:column; text-align:center; }
+  #stats { padding:56px 20px; }
+  .stats-row { gap:38px; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="mainNav">
+  <span class="nav-logo-text">Vasishta</span>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="#home" onclick="closeMenu()">Home</a></li>
+    <li><a href="#services" onclick="closeMenu()">Services</a></li>
+    <li><a href="#fashion" onclick="closeMenu()">Fashion</a></li>
+    <li><a href="#testimonials" onclick="closeMenu()">Reviews</a></li>
+    <li><a href="#booking" onclick="closeMenu()">Book Now</a></li>
+    <li><a href="#contact" onclick="closeMenu()">Contact</a></li>
+  </ul>
+  <div class="hamburger" id="hamburger" onclick="toggleMenu()">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section id="home">
+  <div class="hero-grid"></div>
+  <div class="hero-glow"></div>
+  <div class="hero-particles" id="particles"></div>
+  <div class="hero-vignette"></div>
+  <div class="hero-content">
+    <div class="hero-logo-wrap">
+      <p class="hero-sub-tag">✦ Cinematic Photography &amp; Editing ✦</p>
+      <h1 class="hero-big-title">Vasishta</h1>
+    </div>
+    <div class="hero-divider"></div>
+    <p class="hero-tagline">"Capturing Moments. <em>Creating Stories.</em>"</p>
+    <div class="hero-btns">
+      <a href="#services" class="btn-primary">View Services</a>
+      <a href="#booking" class="btn-ghost">Book Now</a>
+    </div>
+  </div>
+  <div class="hero-scroll">
+    <span>Scroll</span>
+    <div class="scroll-line"></div>
+  </div>
+</section>
+
+<!-- URGENCY -->
+<div class="urgency">
+  <p>⚡ <span>Limited Slots Available</span> — Book Your Session Before They Fill Up ⚡</p>
+</div>
+
+<!-- SERVICES -->
+<section id="services">
+  <div class="section-head reveal">
+    <span class="s-label">✦ What We Offer</span>
+    <h2 class="s-title">Our Services</h2>
+    <div class="s-line"></div>
+    <p class="s-desc">Every package crafted to tell your unique story with cinematic precision.</p>
+  </div>
+  <div class="srv-grid">
+    <div class="srv-card reveal">
+      <span class="srv-icon">🎥</span>
+      <h3 class="srv-title">Videography</h3>
+      <p class="srv-sub">Professional Film & Video</p>
+      <div class="price-row"><span class="price-name">Traditional Shoot</span><span class="price-val">₹3,000 – ₹5,000</span></div>
+      <div class="price-row"><span class="price-name">Portfolio Shoot</span><span class="price-val">₹4,000 – ₹7,000</span></div>
+      <div class="price-row"><span class="price-name">Modern Shoot</span><span class="price-val">₹4,000 – ₹7,000</span></div>
+      <span class="srv-badge">✓ Camera & Location Included</span>
+    </div>
+    <div class="srv-card reveal">
+      <span class="srv-icon">📷</span>
+      <h3 class="srv-title">Photography</h3>
+      <p class="srv-sub">Stills That Speak</p>
+      <div class="price-row"><span class="price-name">Traditional Photoshoot</span><span class="price-val">₹3,000 – ₹5,000</span></div>
+      <div class="price-row"><span class="price-name">Portfolio Shoot</span><span class="price-val">₹3,000 – ₹5,000</span></div>
+      <div class="price-row"><span class="price-name">Modern Shoot</span><span class="price-val">₹3,000 – ₹5,000</span></div>
+      <span class="srv-badge">✓ Camera & Location Included</span>
+    </div>
+    <div class="srv-card reveal">
+      <span class="srv-icon">💍</span>
+      <h3 class="srv-title">Events</h3>
+      <p class="srv-sub">Weddings & Celebrations</p>
+      <div class="price-row"><span class="price-name">Pre-Wedding Shoot</span><span class="price-val">₹45,000</span></div>
+      <div class="price-row"><span class="price-name">Wedding + Reception</span><span class="price-val">₹70,000</span></div>
+      <div class="price-row"><span class="price-name">Full Wedding Package</span><span class="price-val">₹1,10,000</span></div>
+      <span class="srv-badge">✓ Premium Full Coverage</span>
+    </div>
+  </div>
+</section>
+
+<!-- FASHION -->
+<section id="fashion">
+  <div class="section-head reveal">
+    <span class="s-label">✦ Style & Identity</span>
+    <h2 class="s-title">Fashion & Editorial</h2>
+    <div class="s-line"></div>
+    <p class="s-desc">High-fashion storytelling for brands, models & creative vision.</p>
+  </div>
+  <div class="fashion-grid">
+    <div class="fashion-card reveal">
+      <div class="fashion-num">01</div>
+      <h3 class="fashion-title">Saree / Ethnic Shoot</h3>
+      <p class="fashion-desc">Bengali saree, South Indian silk, Gujarati outfits — traditional styles with a cinematic touch.</p>
+    </div>
+    <div class="fashion-card reveal">
+      <div class="fashion-num">02</div>
+      <h3 class="fashion-title">Festive / Diwali Shoot</h3>
+      <p class="fashion-desc">Festival-themed shoots with vibrant, radiant backgrounds celebrating every occasion.</p>
+    </div>
+    <div class="fashion-card reveal">
+      <div class="fashion-num">03</div>
+      <h3 class="fashion-title">Western Wear / Lookbook</h3>
+      <p class="fashion-desc">Perfect for brands, models & designers launching a contemporary collection with impact.</p>
+    </div>
+    <div class="fashion-card reveal">
+      <div class="fashion-num">04</div>
+      <h3 class="fashion-title">Editorial / Concept Shoot</h3>
+      <p class="fashion-desc">Creative storytelling shoots crafted for magazines, lookbooks, and personal branding.</p>
+    </div>
+  </div>
+</section>
+
+<!-- LIFESTYLE -->
+<section id="lifestyle">
+  <div class="section-head reveal">
+    <span class="s-label">✦ Life in Frames</span>
+    <h2 class="s-title">Lifestyle & Social Media</h2>
+    <div class="s-line"></div>
+    <p class="s-desc">Content that captivates your audience across every platform.</p>
+  </div>
+  <div class="ls-row reveal">
+    <div class="ls-item">
+      <div class="ls-icon">📱</div>
+      <h3 class="ls-title">Influencer Shoots</h3>
+      <p class="ls-desc">Instagram & YouTube content — OOTD, travel, café shoots crafted for your feed.</p>
+    </div>
+    <div class="ls-item">
+      <div class="ls-icon">🖼️</div>
+      <h3 class="ls-title">Portrait Photography</h3>
+      <p class="ls-desc">Studio, outdoor, or street-style portraits that capture your true self.</p>
+    </div>
+    <div class="ls-item">
+      <div class="ls-icon">🌸</div>
+      <h3 class="ls-title">Maternity & Baby</h3>
+      <p class="ls-desc">Beautiful, tender moments of motherhood and childhood preserved forever.</p>
+    </div>
+  </div>
+</section>
+
+<!-- STATS -->
+<section id="stats">
+  <div class="stats-row">
+    <div class="stat-item reveal">
+      <div class="stat-num" data-target="500">0</div>
+      <div class="stat-label">Happy Clients</div>
+    </div>
+    <div class="stat-item reveal">
+      <div class="stat-num" data-target="200">0</div>
+      <div class="stat-label">Events Covered</div>
+    </div>
+    <div class="stat-item reveal">
+      <div class="stat-num" data-target="5">0</div>
+      <div class="stat-label">Years Experience</div>
+    </div>
+    <div class="stat-item reveal">
+      <div class="stat-num" data-target="100">0</div>
+      <div class="stat-label">5-Star Reviews</div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section id="testimonials">
+  <div class="section-head reveal">
+    <span class="s-label">✦ Client Love</span>
+    <h2 class="s-title">What They Say</h2>
+    <div class="s-line"></div>
+  </div>
+  <div class="testi-grid">
+    <div class="testi-card reveal">
+      <div class="testi-stars">★★★★★</div>
+      <p class="testi-quote">The pre-wedding shoot was beyond our imagination. Every frame felt like a movie scene. Vasishta VFX truly knows how to capture emotion.</p>
+      <p class="testi-author">Priya & Arjun</p>
+      <p class="testi-role">Pre-Wedding Shoot</p>
+    </div>
+    <div class="testi-card reveal">
+      <div class="testi-stars">★★★★★</div>
+      <p class="testi-quote">My portfolio shoot turned out absolutely stunning. The editing was world-class. I got three modeling offers within a week of posting!</p>
+      <p class="testi-author">Sneha Reddy</p>
+      <p class="testi-role">Portfolio Shoot</p>
+    </div>
+    <div class="testi-card reveal">
+      <div class="testi-stars">★★★★★</div>
+      <p class="testi-quote">Booked the wedding package and couldn't be happier. Every single moment was captured beautifully. Worth every rupee — truly cinematic.</p>
+      <p class="testi-author">Rahul & Deepika</p>
+      <p class="testi-role">Wedding Package</p>
+    </div>
+  </div>
+</section>
+
+<!-- BOOKING -->
+<section id="booking">
+  <div class="section-head reveal">
+    <span class="s-label">✦ Reserve Your Date</span>
+    <h2 class="s-title">Book Your Shoot</h2>
+    <div class="s-line"></div>
+    <p class="s-desc">Fill in your details and we'll confirm your session within 24 hours.</p>
+  </div>
+  <div class="booking-wrap reveal">
+    <div class="booking-form">
+      <div class="f-row">
+        <div class="f-group">
+          <label>Your Name</label>
+          <input type="text" id="bName" placeholder="Full Name">
+        </div>
+        <div class="f-group">
+          <label>Phone Number</label>
+          <input type="tel" id="bPhone" placeholder="+91 XXXXX XXXXX">
+        </div>
+      </div>
+      <div class="f-row">
+        <div class="f-group">
+          <label>Type of Service</label>
+          <select id="bService">
+            <option value="">Select a Service</option>
+            <optgroup label="— Videography —">
+              <option>Traditional Shoot – Videography</option>
+              <option>Portfolio Shoot – Videography</option>
+              <option>Modern Shoot – Videography</option>
+            </optgroup>
+            <optgroup label="— Photography —">
+              <option>Traditional Photoshoot</option>
+              <option>Portfolio Shoot – Photography</option>
+              <option>Modern Shoot – Photography</option>
+            </optgroup>
+            <optgroup label="— Events —">
+              <option>Pre-Wedding Shoot</option>
+              <option>Wedding + Reception</option>
+              <option>Full Wedding Package</option>
+            </optgroup>
+            <optgroup label="— Fashion & Lifestyle —">
+              <option>Saree / Ethnic Shoot</option>
+              <option>Festive / Diwali Shoot</option>
+              <option>Western Wear / Lookbook</option>
+              <option>Editorial / Concept Shoot</option>
+              <option>Influencer / Blogger Shoot</option>
+              <option>Portrait Photography</option>
+              <option>Maternity & Baby Shoot</option>
+            </optgroup>
+          </select>
+        </div>
+        <div class="f-group">
+          <label>Preferred Date</label>
+          <input type="date" id="bDate">
+        </div>
+      </div>
+      <div class="f-group">
+        <label>Your Message</label>
+        <textarea id="bMsg" placeholder="Tell us your vision, preferred location, or any special requirements..."></textarea>
+      </div>
+      <div class="f-submit">
+        <button class="btn-primary" onclick="handleBook()">✦ Confirm Booking</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="section-head reveal">
+    <span class="s-label">✦ Get in Touch</span>
+    <h2 class="s-title">Contact Us</h2>
+    <div class="s-line"></div>
+    <p class="s-desc" style="margin-bottom:12px;">Reach out to <strong style="color:var(--cream);font-style:normal;">Mokshith Dass</strong> directly.</p>
+  </div>
+  <div class="contact-items reveal">
+    <div class="contact-item">
+      <a href="tel:+917619225935" style="text-decoration:none;">
+        <div class="c-icon">📱</div>
+      </a>
+      <span class="c-label">Phone</span>
+      <span class="c-val">+91 76192 25935</span>
+      <span class="c-name">Mokshith Dass</span>
+    </div>
+    <div class="contact-item">
+      <a href="https://wa.me/917619225935" target="_blank" style="text-decoration:none;">
+        <div class="c-icon">💬</div>
+      </a>
+      <span class="c-label">WhatsApp</span>
+      <span class="c-val">+91 76192 25935</span>
+      <span class="c-name">Tap to chat</span>
+    </div>
+    <div class="contact-item">
+      <a href="/cdn-cgi/l/email-protection#0c6163677f646578646163677f64653c354c6b616d6560226f6361" style="text-decoration:none;">
+        <div class="c-icon">✉️</div>
+      </a>
+      <span class="c-label">Email</span>
+      <span class="c-val"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="adc0c2c6dec5c4d9c5c0c2c6dec5c49d94edcac0ccc4c183cec2c0">[email&#160;protected]</a></span>
+      <span class="c-name">We reply within 24 hrs</span>
+    </div>
+    <div class="contact-item">
+      <a href="https://instagram.com/vasishta_projects" target="_blank" style="text-decoration:none;">
+        <div class="c-icon">📸</div>
+      </a>
+      <span class="c-label">Instagram</span>
+      <span class="c-val">@vasishta_projects</span>
+      <span class="c-name">Follow our work</span>
+    </div>
+  </div>
+  <p class="contact-quote">"Every great shot starts with a conversation."</p>
+</section>
+
+<!-- FLOATING WHATSAPP -->
+<a href="https://wa.me/917619225935?text=Hi%20Mokshith!%20I%20saw%20Vasishta%20VFX%20and%20I%27m%20interested%20in%20a%20shoot." target="_blank" class="wa-float">
+  <div class="wa-float-icon">
+    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+      <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+    </svg>
+  </div>
+  <div class="wa-float-text">
+    <span>Chat with us</span>
+    <span>We reply instantly</span>
+  </div>
+  <div class="wa-float-dot"></div>
+</a>
+
+<!-- FOOTER -->
+<footer>
+  <span class="footer-logo-text">Vasishta</span>
+  <p class="footer-copy">© 2024 Vasishta VFX — Mokshith Dass. All rights reserved.</p>
+</footer>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+// Nav scroll
+const nav = document.getElementById("mainNav");
+window.addEventListener("scroll", () => nav.classList.toggle("scrolled", window.scrollY > 60));
+
+// Particles
+const pWrap = document.getElementById("particles");
+for(let i = 0; i < 28; i++){
+  const p = document.createElement("div");
+  p.className = "particle";
+  const s = Math.random() * 4 + 1;
+  p.style.cssText = `width:${s}px;height:${s}px;left:${Math.random()*100}%;animation-duration:${Math.random()*14+8}s;animation-delay:${Math.random()*10}s;`;
+  pWrap.appendChild(p);
+}
+
+// Reveal
+const revObs = new IntersectionObserver((entries) => {
+  entries.forEach((e, i) => {
+    if(e.isIntersecting){ setTimeout(() => e.target.classList.add("on"), i * 90); revObs.unobserve(e.target); }
+  });
+}, {threshold:0.08});
+document.querySelectorAll(".reveal").forEach(el => revObs.observe(el));
+
+// Counter
+const cObs = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if(entry.isIntersecting){
+      const el = entry.target, target = +el.getAttribute("data-target");
+      let count = 0; const step = target / 60;
+      const t = setInterval(() => {
+        count += step;
+        if(count >= target){ el.textContent = target + "+"; clearInterval(t); }
+        else { el.textContent = Math.floor(count); }
+      }, 25);
+      cObs.unobserve(el);
+    }
+  });
+}, {threshold:0.5});
+document.querySelectorAll("[data-target]").forEach(c => cObs.observe(c));
+
+// Menu
+function toggleMenu(){ document.getElementById("navLinks").classList.toggle("open"); }
+function closeMenu(){ document.getElementById("navLinks").classList.remove("open"); }
+
+// Booking → WhatsApp notification to 7619225935
+function handleBook(){
+  const name    = document.getElementById("bName").value.trim();
+  const phone   = document.getElementById("bPhone").value.trim();
+  const service = document.getElementById("bService").value;
+  const date    = document.getElementById("bDate").value;
+  const msg     = document.getElementById("bMsg").value.trim();
+
+  if(!name)   { alert("Please enter your name.");       return; }
+  if(!phone)  { alert("Please enter your phone number."); return; }
+  if(!service){ alert("Please select a service.");      return; }
+
+  // Build the WhatsApp message
+  const waText = 
+`🎥 *New Booking Request — Vasishta VFX*
+
+👤 *Name:* ${name}
+📱 *Phone:* ${phone}
+🎬 *Service:* ${service}
+📅 *Date:* ${date || "Not specified"}
+💬 *Message:* ${msg || "No message"}
+
+_Sent via vasishta-vfx.com_`;
+
+  // Encode and open WhatsApp
+  const encoded = encodeURIComponent(waText);
+  const waURL   = `https://wa.me/917619225935?text=${encoded}`;
+  window.open(waURL, "_blank");
+
+  // Show thank you to client
+  alert(`✦ Thank You, ${name}!\n\nYour booking request has been sent.\nMokshith Dass will confirm within 24 hours.\n\n— Vasishta VFX`);
